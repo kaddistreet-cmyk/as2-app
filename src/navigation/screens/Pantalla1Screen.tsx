@@ -1,44 +1,77 @@
 import React, { useState } from 'react'
-import { Button, Text, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
-import { stylesGlobal } from '../theme/appTheme'
+import { stylesGlobal } from '../theme/appTheme';
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { TextInput } from 'react-native-gesture-handler'
 
 interface Props extends StackScreenProps<any, any> { };
 
 export const Pantalla1Screen = ({ navigation }: Props) => {
 
-  const arreglo: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-  const [pares, setPares] = useState<number[]>([])
-  const [impares, setImpares] = useState<number[]>([])
+  const [usuario, setUsuario] = useState<string>('')
+  const [contrasena, setContrasena] = useState<string>('')
 
+  const inicioSesion = () => {
+    navigation.navigate('Pantalla2')
+  }
+  const registrarse = () => {
+    navigation.navigate('Pantalla3')
+  }
 
   return (
-    <View style={stylesGlobal.container}>
-      <Text style={stylesGlobal.title}>BIENVENIDO</Text>
-      <Text>Vector: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14</Text>
-      <Button
-        title="Separar pares e impares"
-        onPress={() => {
-          const numerosPares = arreglo.filter((valor) => valor % 2 === 0)
-          const numerosImpares = arreglo.filter((valor) => valor % 2 !== 0)
-          setPares(numerosPares)
-          setImpares(numerosImpares)
-        }}
+
+    <SafeAreaView style={stylesGlobal.container}>
+      <Image
+        source={require('../../assets/store.png')}
+        style={stylesGlobal.logo}
+        resizeMode="cover"
       />
       <View>
-        <Text>Numeros pares:</Text>
-        <Text>
-          {pares.join(", ")}
-        </Text>
+        <Text style={stylesGlobal.title}>BIENVENIDO</Text>
       </View>
-      <View>
-        <Text>Numeros impares</Text>
-        <Text>
-          {impares.join(", ")}
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Ingrese su usuario"
+        value={usuario}
+        onChangeText={setUsuario}
+      />
+
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Ingrese su contraseña"
+        value={contrasena}
+        onChangeText={setContrasena}
+        secureTextEntry
+      />
+      <TouchableOpacity onPress={inicioSesion}>
+        <Text style={stylesGlobal.link}>
+          ¿Olvidaste tu contraseña? Recupérala aquí
         </Text>
+      </TouchableOpacity>
+
+
+      <View style={stylesGlobal.buttonContainer}>
+        <TouchableOpacity
+          style={stylesGlobal.button}
+          onPress={inicioSesion}
+        >
+          <Text style={stylesGlobal.buttonText}>
+            INICIAR SESIÓN
+          </Text>
+        </TouchableOpacity>
       </View>
-      <Button title='Ir a pantalla 2'
-        onPress={() => navigation.navigate('Pantalla2')} />
-    </View>
+      <View style={stylesGlobal.buttonContainer}>
+        <TouchableOpacity
+          style={stylesGlobal.button}
+          onPress={registrarse}
+        >
+          <Text style={stylesGlobal.buttonText}>
+            REGISTRATE
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   )
 }
+

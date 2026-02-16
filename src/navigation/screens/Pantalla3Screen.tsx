@@ -1,58 +1,104 @@
-import React from 'react'
-import { Button, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { Alert, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { stylesGlobal } from '../theme/appTheme'
 
-interface Props extends StackScreenProps<any, any> { };
+interface Props extends StackScreenProps<any, any> { }
 
 export const Pantalla3Screen = ({ navigation }: Props) => {
+  const [nombre, setNombre] = useState('')
+  const [apellido, setApellido] = useState('')
+  const [usuario, setUsuario] = useState('')
+  const [contrasena, setContrasena] = useState('')
+  const [cumple, setCumple] = useState('')
+  const [correo, setCorreo] = useState('')
+  const [cedula, setCedula] = useState('')
+  const [contacto, setContacto] = useState('')
+
+  const registrar = () => {
+    if (!nombre || !apellido || !usuario || !contrasena || !cumple || !correo || !cedula || !contacto) {
+      Alert.alert('Faltan datos', 'Completa todos los campos.')
+      return
+    }
+
+    if (!correo.includes('@') || !correo.includes('.')) {
+      Alert.alert('Correo inválido', 'Ingresa un correo válido.')
+      return
+    }
+
+    Alert.alert('Registro', 'Usuario registrado')
+    navigation.navigate('Pantalla1')
+  }
+
   return (
-    <View style={[stylesGlobal.container, { flex: 1 }]}>
-      <Text style={stylesGlobal.title}>Ejercicio 3</Text>
-      <View style={styles.container}>
-        <Text style={styles.box1}>Caja</Text>
-        <Text style={styles.box2}>Caja</Text>
-        <Text style={styles.box3}>Caja</Text>
+    <SafeAreaView style={stylesGlobal.container}>
+      <Text style={stylesGlobal.title}>REGISTRO</Text>
+
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Nombre"
+        value={nombre}
+        onChangeText={setNombre}
+      />
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Apellido"
+        value={apellido}
+        onChangeText={setApellido}
+      />
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Usuario"
+        value={usuario}
+        onChangeText={setUsuario}
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Contraseña"
+        value={contrasena}
+        onChangeText={setContrasena}
+        secureTextEntry
+      />
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Fecha de cumpleaños (dd/mm/aaaa)"
+        value={cumple}
+        onChangeText={setCumple}
+        keyboardType="numeric"
+      />
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Correo"
+        value={correo}
+        onChangeText={setCorreo}
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Cédula"
+        value={cedula}
+        onChangeText={setCedula}
+        keyboardType="numeric"
+      />
+      <TextInput
+        style={stylesGlobal.input}
+        placeholder="Teléfono"
+        value={contacto}
+        onChangeText={setContacto}
+        keyboardType="phone-pad"
+      />
+
+      <View style={stylesGlobal.buttonContainer}>
+        <TouchableOpacity style={stylesGlobal.button} onPress={registrar}>
+          <Text style={stylesGlobal.buttonText}>CREAR CUENTA</Text>
+        </TouchableOpacity>
       </View>
-      <Button title='Regresar'
-        onPress={() => navigation.goBack()} />
-      <Button title='Ir a pantalla 4'
-        onPress={() => navigation.navigate('Pantalla4')} />
-    </View>
+
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={stylesGlobal.link}>Volver al inicio de sesión</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   )
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    //height: 400,
-    backgroundColor: '#538D91',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    flexWrap: 'nowrap'
-  },
-  box1: {
-    //flex: 1,
-    borderWidth: 3,
-    backgroundColor: 'red',
-    borderColor: 'white',
-    fontSize: 30
-    //alignSelf: 'center'
-  },
-  box2: {
-    borderWidth: 3,
-    backgroundColor: 'blue',
-    borderColor: 'white',
-    fontSize: 30,
-    //height: 600
-  },
-  box3: {
-    borderWidth: 3,
-    backgroundColor: 'red',
-    borderColor: 'white',
-    fontSize: 30,
-    width: 800
-  }
-})
